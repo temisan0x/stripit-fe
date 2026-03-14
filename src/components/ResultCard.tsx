@@ -1,4 +1,4 @@
-import { buildApiUrl } from "../lib/api";
+import { buildDownloadUrl } from "../lib/api";
 
 type ResultCardProps = {
   filename: string;
@@ -7,15 +7,11 @@ type ResultCardProps = {
 };
 
 function ResultCard({ filename, url, expired }: ResultCardProps) {
-  const downloadUrl = buildApiUrl(
-    `/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(
-      filename || "stripped-file",
-    )}`,
-  );
+  const downloadUrl = buildDownloadUrl(url, filename);
 
   return (
-    <div className="mt-8 rounded border border-[var(--ink)] bg-[var(--white)] p-6">
-      <p className="mb-3 text-[11px] uppercase tracking-[0.1em] text-[var(--mid)] font-[var(--font-mono)]">
+    <div className="mt-8 rounded border border-foreground bg-(--white) p-6">
+      <p className="mb-3 text-[11px] uppercase tracking-[0.1em] text-(--mid) font-(--font-mono)">
         ✓ &nbsp;File stripped successfully
       </p>
       <p className="mb-4 break-all text-[15px] font-bold text-[var(--ink)]">

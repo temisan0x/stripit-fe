@@ -3,7 +3,7 @@
 import type { RefObject } from "react";
 
 type MatrixCanvasProps = {
-  canvasRef: RefObject<HTMLCanvasElement>;
+  canvasRef: RefObject<HTMLCanvasElement | null> ;
 };
 
 function MatrixCanvas({ canvasRef }: MatrixCanvasProps) {

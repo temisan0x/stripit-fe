@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${syne.variable} ${plexMono.variable} antialiased`}>
+      <body className={`${syne.variable} ${plexMono.variable} antialiased suppressHydrationWarning`}>
         {children}
       </body>
     </html>
