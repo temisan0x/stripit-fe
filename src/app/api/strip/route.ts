@@ -13,13 +13,20 @@ export async function GET(req: NextRequest) {
   try {
     const response = await fetch(
       `${API_BASE}/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename || "stripped-file")}`,
-      { headers: { "x-api-key": API_KEY || "" } }
+      { headers: { "x-api-key": API_KEY || "" } },
     );
+
+    const contentTypeRes = response.headers.get("content-type") || "";
+    if (!contentTypeRes.includes("application/json") && !response.ok) {
+      return NextResponse.json({ error: "Server unreachable" }, { status: 502 });
+    }
+
+    console.log("Sending API key:", API_KEY);
 
     const blob = await response.blob();
     return new NextResponse(blob, {
       headers: {
-        "Content-Type": response.headers.get("Content-Type") || "application/octet-stream",
+        "Content-Type": contentTypeRes || "application/octet-stream",
         "Content-Disposition": `attachment; filename="${filename || "stripped-file"}"`,
       },
     });
