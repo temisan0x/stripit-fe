@@ -4,13 +4,12 @@ type TabsProps = {
 };
 
 function Tabs({ active, onChange }: TabsProps) {
-  const base =
-    "flex-1 px-3 py-3 text-[13px] font-bold uppercase tracking-[0.05em] transition";
-  const activeClass = "bg-[var(--black)] text-[var(--white)]";
-  const idleClass = "bg-white text-[var(--mid)] hover:bg-[#fafaf8] hover:text-[var(--black)]";
+  const base = "flex-1 px-3 py-3 text-[13px] font-bold uppercase tracking-[0.05em] transition";
+  const activeClass = "bg-black text-white";
+  const idleClass = "bg-white text-mid hover:bg-[#fafaf8] hover:text-black";
 
   return (
-    <div className="mb-6 flex overflow-hidden rounded border border-[var(--gray)]">
+    <div className="mb-6 flex overflow-hidden rounded border border-gray">
       <button
         type="button"
         className={`${base} ${active === "url" ? activeClass : idleClass}`}

@@ -10,3 +10,12 @@ export const LOG_MESSAGES = [
   "> Uploading clean file...",
   "> Verifying integrity...",
 ];
+
+export const FIELDS = [
+  { key: "GPS", label: "Location" },
+  { key: "date", label: "Date" },
+  { key: "device", label: "Device" },
+  { key: "encoder", label: "Encoder" },
+  { key: "software", label: "Software" },
+  { key: "location", label: "GPS Tag" },
+];

@@ -1,17 +1,17 @@
 "use client";
 
 import Script from "next/script";
-import { MatrixCanvas } from "./MatrixCanvas";
-import { MetadataCard } from "./MetadataCard";
-import { ProgressSection } from "./ProgressSection";
-import { ResultCard } from "./ResultCard";
-import { StripFooter } from "./StripFooter";
-import { StripHeader } from "./StripHeader";
-import { Tabs } from "./Tabs";
-import { UploadPanel } from "./UploadPanel";
-import { UrlPanel } from "./UrlPanel";
+import { MatrixCanvas } from "./layout/MatrixCanvas";
+import { MetadataCard } from "./metadata/MetadataCard";
+import { ProgressSection } from "./ui/ProgressSection";
+import { ResultCard } from "./ui/ResultCard";
+import { StripFooter } from "./layout/StripFooter";
+import { StripHeader } from "./layout/StripHeader";
+import { Tabs } from "./ui/Tabs";
+import { UploadPanel } from "./upload/UploadPanel";
+import { UrlPanel } from "./upload/UrlPanel";
 import { useStripit } from "../hooks/useStripit";
-import StripHero from "./StripHero";
+import StripHero from "./layout/StripHero";
 
 function StripItApp() {
   const {
@@ -48,7 +48,7 @@ function StripItApp() {
 
         <StripHero />
 
-        <div className="my-10 h-px w-full bg-(--gray)" />
+        <div className="my-10 h-px w-full bg-gray" />
 
         <Tabs active={activeTab} onChange={(tab) => setActiveTab(tab)} />
 
