@@ -3,34 +3,40 @@ import { NextRequest, NextResponse } from "next/server";
 const API_BASE = process.env.API_BASE;
 const API_KEY = process.env.API_KEY;
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const url = searchParams.get("url");
-  const filename = searchParams.get("filename");
+export async function POST(req: NextRequest) {
+  const contentType = req.headers.get("content-type") || "";
+  const isFormData = contentType.includes("multipart/form-data");
+  const endpoint = isFormData ? "/uploads" : "/strip-url";
 
-  if (!url) return NextResponse.json({ error: "Missing URL" }, { status: 400 });
+  const body = isFormData ? await req.formData() : await req.json();
+  const headers: HeadersInit = { "x-api-key": API_KEY || "" };
+  if (!isFormData) headers["Content-Type"] = "application/json";
 
+console.log("Forwarding to:", `${API_BASE}${endpoint}`);
+console.log("API_KEY being sent:", API_KEY);
   try {
-    const response = await fetch(
-      `${API_BASE}/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename || "stripped-file")}`,
-      { headers: { "x-api-key": API_KEY || "" } },
-    );
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      method: "POST",
+      headers,
+      body: isFormData ? (body as FormData) : JSON.stringify(body),
+    });
 
     const contentTypeRes = response.headers.get("content-type") || "";
-    if (!contentTypeRes.includes("application/json") && !response.ok) {
-      return NextResponse.json({ error: "Server unreachable" }, { status: 502 });
+    if (!contentTypeRes.includes("application/json")) {
+      return NextResponse.json(
+        { error: "Server unreachable" },
+        { status: 502 },
+      );
     }
 
-    console.log("Sending API key:", API_KEY);
-
-    const blob = await response.blob();
-    return new NextResponse(blob, {
-      headers: {
-        "Content-Type": contentTypeRes || "application/octet-stream",
-        "Content-Disposition": `attachment; filename="${filename || "stripped-file"}"`,
-      },
-    });
+    const data = await response.json();
+    if (!response.ok)
+      return NextResponse.json(data, { status: response.status });
+    return NextResponse.json(data);
   } catch {
-    return NextResponse.json({ error: "Download failed" }, { status: 502 });
+    return NextResponse.json(
+      { error: "Failed to reach server" },
+      { status: 502 },
+    );
   }
 }

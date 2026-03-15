@@ -10,7 +10,7 @@ function useUrlStrip({ socketRef, onStart, onDone, onError }: UrlStripOptions) {
     if (!trimmed) return onError("Please paste a URL first.");
     onStart(); // ← add this
     try {
-      const res = await fetch("/api/strip", {
+      const res = await fetch("/api/strip",{
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
