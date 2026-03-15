@@ -1,17 +1,11 @@
 "use client";
 
 import Script from "next/script";
-import { MatrixCanvas } from "./layout/MatrixCanvas";
-import { MetadataCard } from "./metadata/MetadataCard";
-import { ProgressSection } from "./ui/ProgressSection";
-import { ResultCard } from "./ui/ResultCard";
-import { StripFooter } from "./layout/StripFooter";
-import { StripHeader } from "./layout/StripHeader";
-import { Tabs } from "./ui/Tabs";
-import { UploadPanel } from "./upload/UploadPanel";
-import { UrlPanel } from "./upload/UrlPanel";
+import { MetadataCard } from "./metadata";
+import { UploadPanel, UrlPanel } from "./upload";
+import { Tabs, ProgressSection, ResultCard } from "./ui";
+import { StripHeader, StripFooter, StripHero, MatrixCanvas } from "./layout";
 import { useStripit } from "../hooks/useStripit";
-import StripHero from "./layout/StripHero";
 
 function StripItApp() {
   const {
