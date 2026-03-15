@@ -35,7 +35,7 @@ function StripItApp() {
 
   return (
     <>
-      <Script src="/socket.io/socket.io.js" strategy="afterInteractive" />
+    <Script src="https://cdn.socket.io/4.8.0/socket.io.min.js" strategy="afterInteractive" />
       <MatrixCanvas canvasRef={canvasRef} />
 
       <div className="relative z-10 mx-auto max-w-170 px-6 pb-20 pt-14">
