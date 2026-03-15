@@ -1,12 +1,15 @@
 import { useState } from "react";
 import type { UploadOptions } from "@/types/stripit";
+import { MAX_UPLOAD_SIZE_MB, MAX_UPLOAD_SIZE_BYTES } from "@/lib/constants";
 
-function useUpload({ socketRef, onProgress, onDone, onError }: UploadOptions) {
+function useUpload({ socketRef, onProgress, onStart, onDone, onError }: UploadOptions) {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const uploadFile = async () => {
     if (!file) return onError("Please select a file first.");
+    if (file.size > MAX_UPLOAD_SIZE_BYTES) return onError(`File too large. Max size is ${MAX_UPLOAD_SIZE_MB}MB.`);
+    onStart();
 
     const formData = new FormData();
     formData.append("image", file);
@@ -23,11 +26,7 @@ function useUpload({ socketRef, onProgress, onDone, onError }: UploadOptions) {
       if (!res.ok) throw new Error(data.error || "Upload failed");
       onDone(data);
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        onError(err.message);
-      } else {
-        onError("Something went wrong.");
-      }
+      onError(err instanceof Error ? err.message : "Something went wrong.");
     }
   };
 

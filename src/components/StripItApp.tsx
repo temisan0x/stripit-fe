@@ -32,6 +32,7 @@ function StripItApp() {
     handleUrlPaste,
   } = useStripit();
 
+
   return (
     <>
       <Script src="/socket.io/socket.io.js" strategy="afterInteractive" />

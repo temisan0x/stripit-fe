@@ -1,5 +1,12 @@
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { StripItApp } from "../components/StripItApp";
 
+
+
 export default function Home() {
-  return <StripItApp />;
+  return (
+    <ErrorBoundary>
+      <StripItApp />
+    </ErrorBoundary>
+  );
 }
