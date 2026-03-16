@@ -4,6 +4,12 @@ const API_BASE = process.env.API_BASE;
 const API_KEY = process.env.API_KEY;
 
 export async function POST(req: NextRequest) {
+  if (!API_BASE) {
+    return NextResponse.json(
+      { error: "API_BASE is not set on the server." },
+      { status: 500 },
+    );
+  }
   const contentType = req.headers.get("content-type") || "";
   const isFormData = contentType.includes("multipart/form-data");
   const endpoint = isFormData ? "/uploads" : "/strip-url";
@@ -39,10 +45,9 @@ console.log("Forwarding to:", `${API_BASE}${endpoint}`);
     },
     { status: response.status || 502 },
   );
-  } catch {
-    return NextResponse.json(
-      { error: "Failed to reach server" },
-      { status: 502 },
-    );
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Failed to reach server";
+    return NextResponse.json({ error: message }, { status: 502 });
   }
 }
