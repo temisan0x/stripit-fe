@@ -1,9 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { UrlStripOptions } from "@/types/stripit";
 
+const LAST_URL_STORAGE_KEY = "stripit:last-url";
 
 function useUrlStrip({ socketRef, onStart, onDone, onError }: UrlStripOptions) {
   const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    const savedUrl = window.localStorage.getItem(LAST_URL_STORAGE_KEY);
+    if (savedUrl) setUrl(savedUrl);
+  }, []);
+
+  useEffect(() => {
+    if (url.trim()) {
+      window.localStorage.setItem(LAST_URL_STORAGE_KEY, url);
+    } else {
+      window.localStorage.removeItem(LAST_URL_STORAGE_KEY);
+    }
+  }, [url]);
 
   const stripFromUrl = async () => {
     const trimmed = url.trim();
