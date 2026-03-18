@@ -1,11 +1,31 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSocket } from "./useSocket";
 import { useMatrix } from "./useMatrix";
 import useUpload from "./useUpload";
 import useUrlStrip from "./useUrlStrip";
 import type { MetadataPayload, StripitResult } from "@/types/stripit";
 import { LOG_MESSAGES } from "@/lib/constants";
+
+async function runBackendCheck(
+  setBackendStatus: (status: "checking" | "online" | "offline") => void,
+) {
+  setBackendStatus("checking");
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 7000);
+  try {
+    const res = await fetch("/api/health", {
+      method: "GET",
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    setBackendStatus(res.ok ? "online" : "offline");
+  } catch {
+    setBackendStatus("offline");
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
 function useStripit() {
   const [progress, setProgress] = useState(0);
@@ -16,6 +36,9 @@ function useStripit() {
   const [logs, setLogs] = useState<string[]>([]);
   const [metadata, setMetadata] = useState<MetadataPayload | null>(null);
   const [downloadExpired, setDownloadExpired] = useState(false);
+  const [backendStatus, setBackendStatus] = useState<
+    "checking" | "online" | "offline"
+  >("checking");
   const { startMatrix, stopMatrix, canvasRef } = useMatrix();
   const socketRef = useSocket(setProgress);
 
@@ -86,6 +109,14 @@ function useStripit() {
     } catch {}
   };
 
+  const checkBackendStatus = async () => {
+    await runBackendCheck(setBackendStatus);
+  };
+
+  useEffect(() => {
+    void runBackendCheck(setBackendStatus);
+  }, []);
+
   return {
     activeTab,
     setActiveTab,
@@ -97,6 +128,8 @@ function useStripit() {
     logs,
     metadata,
     downloadExpired,
+    backendStatus,
+    checkBackendStatus,
     canvasRef,
     handleFileRemove,
     handleUrlPaste,

@@ -16,10 +16,8 @@ export async function POST(req: NextRequest) {
 
   const body = isFormData ? await req.formData() : await req.json();
   const headers: HeadersInit = { "x-api-key": API_KEY || "" };
-  if (!isFormData) headers["Content-Type"] = "application/json";
 
-console.log("Forwarding to:", `${API_BASE}${endpoint}`);
-// console.log("API_KEY being sent:", API_KEY);
+  if (!isFormData) headers["Content-Type"] = "application/json";
   try {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: "POST",
@@ -27,27 +25,50 @@ console.log("Forwarding to:", `${API_BASE}${endpoint}`);
       body: isFormData ? (body as FormData) : JSON.stringify(body),
     });
 
-  const contentTypeRes = response.headers.get("content-type") || "";
-  const isJson = contentTypeRes.includes("application/json");
-  if (isJson) {
-    const data = await response.json();
-    if (!response.ok)
-      return NextResponse.json(data, { status: response.status });
-    return NextResponse.json(data);
-  }
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Headers being sent:", headers);
+      console.log("Body being sent:", JSON.stringify(body));
 
-  const rawBody = await response.text();
-  return NextResponse.json(
-    {
-      error: "Upstream error",
-      upstreamStatus: response.status,
-      upstreamBody: rawBody,
-    },
-    { status: response.status || 502 },
-  );
+      console.log("Upstream response status:", response.status);
+    }
+
+    const contentTypeRes = response.headers.get("content-type") || "";
+    const isJson = contentTypeRes.includes("application/json");
+    if (isJson) {
+      const data = await response.json();
+      if (!response.ok)
+        return NextResponse.json(data, { status: response.status });
+      return NextResponse.json(data);
+    }
+
+    const rawBody = await response.text();
+    return NextResponse.json(
+      {
+        error: "Upstream error",
+        upstreamStatus: response.status,
+        upstreamBody: rawBody,
+      },
+      { status: response.status || 502 },
+    );
   } catch (err: unknown) {
     const message =
       err instanceof Error ? err.message : "Failed to reach server";
-    return NextResponse.json({ error: message }, { status: 502 });
+    const details =
+      err instanceof Error
+        ? {
+            name: err.name,
+            cause: (err as { cause?: unknown }).cause,
+          }
+        : undefined;
+    console.error("Upstream fetch failed:", { message, details });
+    return NextResponse.json(
+      {
+        error: message,
+        ...(process.env.NODE_ENV !== "production" && details
+          ? { details }
+          : {}),
+      },
+      { status: 502 },
+    );
   }
 }

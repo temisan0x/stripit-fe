@@ -25,6 +25,8 @@ function StripItApp() {
     result,
     metadata,
     downloadExpired,
+    backendStatus,
+    checkBackendStatus,
     canvasRef,
     uploadFile,
     stripFromUrl,
@@ -46,6 +48,33 @@ function StripItApp() {
         <div className="my-10 h-px w-full bg-gray" />
 
         <Tabs active={activeTab} onChange={(tab) => setActiveTab(tab)} />
+
+        <div className="mt-4 flex items-center gap-3 text-[11px] uppercase tracking-[0.1em] text-mid font-(--font-mono)">
+          <span>Backend</span>
+          <span
+            className={
+              backendStatus === "online"
+                ? "text-green"
+                : backendStatus === "offline"
+                  ? "text-danger"
+                  : "text-mid"
+            }
+          >
+            {backendStatus === "online"
+              ? "Online"
+              : backendStatus === "offline"
+                ? "Offline"
+                : "Checking"}
+          </span>
+          <button
+            type="button"
+            onClick={checkBackendStatus}
+            disabled={backendStatus === "checking"}
+            className="rounded border border-gray px-2 py-1 text-[10px] tracking-[0.1em] text-mid hover:bg-[#fafaf8] hover:text-black disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Check
+          </button>
+        </div>
 
         {activeTab === "url" ? (
           <UrlPanel
