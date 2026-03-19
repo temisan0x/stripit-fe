@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const API_BASE = process.env.API_BASE;
+const API_BASE = process.env.API_BASE?.replace(/\/+$/, "");
 
 export async function GET() {
   if (!API_BASE) {

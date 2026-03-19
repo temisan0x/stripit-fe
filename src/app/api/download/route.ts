@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_BASE = process.env.API_BASE;
+const API_BASE = process.env.API_BASE?.replace(/\/+$/, "");
 const API_KEY = process.env.API_KEY;
 
 export async function GET(req: NextRequest) {
