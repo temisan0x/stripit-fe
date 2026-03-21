@@ -15,7 +15,7 @@ function UrlPanel({ url, inputRef, onUrlChange, onPaste, onClear, onSubmit, disa
   return (
     <div>
       <div className="mb-4 flex flex-wrap gap-2">
-        {["Twitter / X", "TikTok", "Instagram", "1000+ sites"].map((label) => (
+        {["Twitter / X", "TikTok", "1000+ sites"].map((label) => (
           <span key={label} className="rounded border border-gray px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-mid font-(--font-mono)">
             {label}
           </span>
