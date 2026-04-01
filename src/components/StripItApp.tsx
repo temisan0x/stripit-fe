@@ -49,32 +49,28 @@ function StripItApp() {
 
         <Tabs active={activeTab} onChange={(tab) => setActiveTab(tab)} />
 
-        <div className="mt-4 flex items-center gap-3 text-[11px] uppercase tracking-[0.1em] text-mid font-(--font-mono)">
-          <span>Backend</span>
-          <span
-            className={
-              backendStatus === "online"
-                ? "text-green"
-                : backendStatus === "offline"
-                  ? "text-danger"
-                  : "text-mid"
-            }
-          >
-            {backendStatus === "online"
-              ? "Online"
-              : backendStatus === "offline"
-                ? "Offline"
-                : "Checking"}
-          </span>
-          <button
-            type="button"
-            onClick={checkBackendStatus}
-            disabled={backendStatus === "checking"}
-            className="rounded border border-gray px-2 py-1 text-[10px] tracking-[0.1em] text-mid hover:bg-[#fafaf8] hover:text-black disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Check
-          </button>
-        </div>
+       <div className="fixed top-4 right-6 z-50 flex items-center gap-1.5 text-[10px] font-mono">
+  <div className="flex items-center gap-1">
+    <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+    <span className={`transition-colors ${
+      backendStatus === "online" ? "text-emerald-600" : 
+      backendStatus === "offline" ? "text-amber-600" : "text-zinc-400"
+    }`}>
+      {backendStatus === "online" ? "Backend ready" : 
+       backendStatus === "offline" ? "Waking up backend..." : "Checking..."}
+    </span>
+  </div>
+  
+  {backendStatus !== "online" && (
+    <button
+      onClick={checkBackendStatus}
+      disabled={backendStatus === "checking"}
+      className="text-[9px] px-2 py-0.5 rounded border border-zinc-300 hover:bg-zinc-100 text-zinc-500 hover:text-black transition-all disabled:opacity-50"
+    >
+      Wake
+    </button>
+  )}
+</div>
 
         {activeTab === "url" ? (
           <UrlPanel

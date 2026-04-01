@@ -117,6 +117,21 @@ function useStripit() {
     void runBackendCheck(setBackendStatus);
   }, []);
 
+  useEffect(() => {
+  const init = async () => {
+    await runBackendCheck(setBackendStatus);
+    
+    // Gentle auto-retry once if still offline
+    if (backendStatus === "offline") {
+      setTimeout(() => {
+        if (backendStatus === "offline") runBackendCheck(setBackendStatus);
+      }, 8000);
+    }
+  };
+  
+  init();
+}, []);
+
   return {
     activeTab,
     setActiveTab,
