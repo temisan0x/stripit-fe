@@ -11,7 +11,7 @@ function StripHero() {
         Share.
       </h1>
       <p className="mt-4 text-[13px] leading-relaxed text-mid font-(--font-mono)">
-        {`// Strip your metadata before they strip your privacy`}
+        {`//   Remove invisible tracking metadata from X/Twitter links before anyone else can use it against you.`}
       </p>
     </>
   );
