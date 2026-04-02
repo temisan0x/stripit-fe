@@ -18,7 +18,7 @@ function StripFooter() {
           </a>
 
           <a
-            href="#"
+            href="https://github.com/temisan0x"
             className="hover:text-black transition-colors"
           >
             GitHub
