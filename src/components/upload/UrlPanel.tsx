@@ -22,38 +22,23 @@ function UrlPanel({
   disabled,
   isProcessing = false,
 }: UrlPanelProps) {
-  // Honest detection - only X works reliably
-  const getDetectedPlatform = (): string | null => {
-    const trimmed = url.trim();
-    if (!trimmed) return null;
-
-    const lower = trimmed.toLowerCase();
-    if (lower.includes("x.com") || lower.includes("twitter.com")) {
-      return "X";
-    }
-    return null;
-  };
-
-  const detectedPlatform = getDetectedPlatform();
   const isValidUrl = url.trim().length > 0;
 
+  // Only show detection for X since that's what works
+  const isXLink = url.toLowerCase().includes("x.com") || url.toLowerCase().includes("twitter.com");
+
   return (
-    <div>
-      {/* Honest platform chips */}
-      <div className="mb-4 flex flex-wrap gap-2">
-        <span className="rounded border border-emerald-400 bg-emerald-50 px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-emerald-700 font-(--font-mono)">
-          ✓ X / Twitter
+    <div className="max-w-2xl mx-auto">
+      {/* Minimal platform indicator */}
+      <div className="mb-6 flex items-center gap-3">
+        <span className="inline-flex items-center gap-1.5 rounded border border-emerald-400 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+          <span className="text-base leading-none">✓</span> X / Twitter
         </span>
-        <span className="rounded border border-gray px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-mid font-(--font-mono) line-through opacity-60">
-          TikTok
-        </span>
-        <span className="rounded border border-gray px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-mid font-(--font-mono) line-through opacity-60">
-          YouTube
-        </span>
+        <span className="text-xs text-mid">• Only X links supported right now</span>
       </div>
 
-      {/* Main input + button - keeping your original border design */}
-      <div className="relative mb-4 flex overflow-hidden rounded border border-gray bg-white">
+      {/* Combined input + button - YOUR preferred border style */}
+      <div className="relative flex overflow-hidden rounded border border-gray bg-white mb-3">
         <div className="relative flex-1">
           <input
             type="url"
@@ -61,14 +46,14 @@ function UrlPanel({
             value={url}
             onChange={(e) => onUrlChange(e.target.value)}
             placeholder="Paste X / Twitter link here..."
-            className="w-full bg-transparent px-4 py-3 pr-12 text-[13px] font-(--font-mono) text-black outline-none disabled:bg-gray-50"
+            className="w-full bg-transparent px-5 py-4 text-[15px] font-(--font-mono) text-black outline-none placeholder:text-mid"
             disabled={isProcessing}
           />
           <button
             type="button"
             onClick={onPaste}
-            className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded text-mid transition hover:bg-[#f0efe9] hover:text-black"
             disabled={isProcessing}
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-mid hover:text-black transition-colors"
             aria-label="Paste from clipboard"
           >
             <FiClipboard className="h-4 w-4" />
@@ -76,39 +61,36 @@ function UrlPanel({
         </div>
 
         <button
-          type="button"
           onClick={onSubmit}
           disabled={disabled || isProcessing || !isValidUrl}
-          className={`px-6 text-[13px] font-bold transition ${
+          className={`px-8 font-semibold text-sm transition-all border-l border-gray ${
             disabled || isProcessing
-              ? "cursor-not-allowed bg-[#cbd5e1] text-white"
-              : "bg-[#2a2a2a] text-white hover:bg-black"
+              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+              : "bg-black text-white hover:bg-zinc-900"
           }`}
         >
           {isProcessing ? "Stripping..." : "Strip & Download"}
         </button>
       </div>
 
-      {/* Feedback + Clear */}
-      <div className="flex items-center justify-between text-xs">
-        <div>
-          {detectedPlatform ? (
-            <span className="text-emerald-600 font-medium">✓ Ready for X / Twitter</span>
-          ) : isValidUrl ? (
-            <span className="text-amber-600">Only X / Twitter works reliably right now</span>
-          ) : (
-            <span className="text-mid">Currently supports X / Twitter links</span>
-          )}
-        </div>
+      {/* Clean feedback row */}
+      <div className="flex items-center justify-between text-xs text-mid px-1">
+        <span>Currently supports X / Twitter links only</span>
+        
+        {isValidUrl && !isXLink && (
+          <span className="text-amber-600">This link may not work yet</span>
+        )}
+        
+        {isValidUrl && isXLink && (
+          <span className="text-emerald-600">✓ Looks good</span>
+        )}
 
         {isValidUrl && (
           <button
-            type="button"
             onClick={onClear}
-            className="text-sm text-mid hover:text-black flex items-center gap-1"
+            className="flex items-center gap-1 hover:text-black transition-colors"
           >
-            <FiX className="h-3.5 w-3.5" />
-            Clear
+            <FiX className="h-3.5 w-3.5" /> Clear
           </button>
         )}
       </div>
