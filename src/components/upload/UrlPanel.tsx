@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { FiClipboard } from "react-icons/fi";
+import { FiClipboard, FiX } from "react-icons/fi";
 
 type UrlPanelProps = {
   url: string;
@@ -9,54 +9,102 @@ type UrlPanelProps = {
   onClear: () => void;
   onSubmit: () => void;
   disabled: boolean;
+  isProcessing?: boolean;
 };
 
-function UrlPanel({ url, inputRef, onUrlChange, onPaste, onClear, onSubmit, disabled }: UrlPanelProps) {
+function UrlPanel({
+  url,
+  inputRef,
+  onUrlChange,
+  onPaste,
+  onClear,
+  onSubmit,
+  disabled,
+  isProcessing = false,
+}: UrlPanelProps) {
+  // Compute detected platform during render (no state, no effect)
+  const getDetectedPlatform = (): string | null => {
+    const trimmed = url.trim();
+    if (!trimmed) return null;
+
+    const lower = trimmed.toLowerCase();
+    if (lower.includes("x.com") || lower.includes("twitter.com")) {
+      return "X";
+    } else if (lower.includes("tiktok.com")) {
+      return "TikTok";
+    } else {
+      return "Supported";
+    }
+  };
+
+  const detectedPlatform = getDetectedPlatform();
+  const isValidUrl = url.trim().length > 0;
+
   return (
-    <div>
-      <div className="mb-4 flex flex-wrap gap-2">
-        {["Twitter / X", "TikTok", "1000+ sites"].map((label) => (
-          <span key={label} className="rounded border border-gray px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-mid font-(--font-mono)">
-            {label}
-          </span>
-        ))}
+    <div className="space-y-5">
+      {/* Subtle platform hint */}
+      <div className="flex flex-wrap gap-2 text-[10px]">
+        <span className="rounded bg-gray-100 px-2.5 py-1 text-mid">X / Twitter</span>
+        <span className="rounded bg-gray-100 px-2.5 py-1 text-mid">TikTok</span>
+        <span className="rounded bg-gray-100 px-2.5 py-1 text-mid">1000+ sites</span>
       </div>
 
-      <div className="relative mb-4 flex overflow-hidden rounded border border-gray bg-white">
+      {/* Main input area - better for mobile */}
+      <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
           <input
             type="url"
-            className="w-full bg-transparent px-4 py-3 pr-12 text-[13px] font-(--font-mono) text-black outline-none"
-            placeholder="Paste the X/Twitter link here..."
+            ref={inputRef}
             value={url}
             onChange={(e) => onUrlChange(e.target.value)}
-            ref={inputRef}
+            placeholder="Paste X, TikTok or any supported link here..."
+            className="w-full rounded-2xl border border-gray bg-white px-5 py-4 text-[15px] font-mono outline-none focus:border-black focus:ring-1 focus:ring-black/10 placeholder:text-gray-400 disabled:bg-gray-50"
+            disabled={isProcessing}
           />
+
           <button
             type="button"
-            className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded text-mid transition hover:bg-[#f0efe9] hover:text-black"
             onClick={onPaste}
-            aria-label="Paste URL from clipboard"
-            title="Paste"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-black transition-colors"
+            disabled={isProcessing}
+            aria-label="Paste from clipboard"
           >
             <FiClipboard className="h-4 w-4" />
           </button>
         </div>
+
         <button
-          type="button"
-          className={`px-6 text-[13px] font-bold transition ${
-            disabled ? "cursor-not-allowed bg-[#cbd5e1] text-white" : "bg-[#2a2a2a] text-white hover:bg-[#2a2a2a]"
-          }`}
           onClick={onSubmit}
-          disabled={disabled}
+          disabled={disabled || isProcessing || !isValidUrl}
+          className={`w-full sm:w-auto px-8 py-4 rounded-2xl font-semibold text-sm transition-all active:scale-[0.98] ${
+            disabled || isProcessing
+              ? "bg-gray-300 text-white cursor-not-allowed"
+              : "bg-black text-white hover:bg-zinc-800"
+          }`}
         >
-          Download
+          {isProcessing ? "Stripping..." : "Strip & Download"}
         </button>
       </div>
 
-      {url.trim() && (
-        <button type="button" className="text-sm text-mid hover:text-black" onClick={onClear}>
-          Clear URL
+      {/* Feedback row */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-mid">
+        <span>PDFs & Docx more coming soon</span>
+        
+        {detectedPlatform && (
+          <span className="text-emerald-600 font-medium">
+            ✓ Detected: {detectedPlatform}
+          </span>
+        )}
+      </div>
+
+      {/* Clear button */}
+      {isValidUrl && (
+        <button
+          onClick={onClear}
+          className="mx-auto flex items-center gap-1.5 text-sm text-mid hover:text-black transition-colors"
+        >
+          <FiX className="h-4 w-4" />
+          Clear link
         </button>
       )}
     </div>

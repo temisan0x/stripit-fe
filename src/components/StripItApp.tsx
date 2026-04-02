@@ -34,10 +34,12 @@ function StripItApp() {
     handleUrlPaste,
   } = useStripit();
 
-
   return (
     <>
-    <Script src="https://cdn.socket.io/4.8.0/socket.io.min.js" strategy="afterInteractive" />
+      <Script
+        src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+        strategy="afterInteractive"
+      />
       <MatrixCanvas canvasRef={canvasRef} />
 
       <div className="relative z-10 mx-auto max-w-170 px-6 pb-20 pt-14">
@@ -49,29 +51,35 @@ function StripItApp() {
 
         <Tabs active={activeTab} onChange={(tab) => setActiveTab(tab)} />
 
-       <div className="fixed top-4 right-6 z-50 flex items-center gap-1.5 text-[10px] font-mono">
-  <div className="flex items-center gap-1">
-    <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-    <span className={`transition-colors ${
-      backendStatus === "online" ? "text-emerald-600" : 
-      backendStatus === "offline" ? "text-amber-600" : "text-zinc-400"
-    }`}>
-      {backendStatus === "online" ? "Backend ready" : 
-       backendStatus === "offline" ? "Waking up backend..." : "Checking..."}
-    </span>
-  </div>
-  
-  {backendStatus !== "online" && (
-    <button
-      onClick={checkBackendStatus}
-      disabled={backendStatus === "checking"}
-      className="text-[9px] px-2 py-0.5 rounded border border-zinc-300 hover:bg-zinc-100 text-zinc-500 hover:text-black transition-all disabled:opacity-50"
-    >
-      Wake
-    </button>
-  )}
-</div>
+        <div className="my-6 flex items-center justify-baseline gap-2 text-[10px] text-zinc-400 font-mono">
+          <span>Privacy engine</span>
+          <div
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border ${
+              backendStatus === "online"
+                ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                : "border-amber-200 bg-amber-50 text-amber-700"
+            }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${backendStatus === "online" ? "bg-emerald-500 animate-pulse" : "bg-amber-500"}`}
+            />
+            {backendStatus === "online"
+              ? "Online"
+              : backendStatus === "checking"
+                ? "Checking..."
+                : "Waking up…"}
+          </div>
 
+          {backendStatus !== "online" && (
+            <button
+              onClick={checkBackendStatus}
+              disabled={backendStatus === "checking"}
+              className="underline underline-offset-2 hover:text-black text-xs transition-colors"
+            >
+              Retry
+            </button>
+          )}
+        </div>
         {activeTab === "url" ? (
           <UrlPanel
             url={url}
