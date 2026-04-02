@@ -3,12 +3,12 @@
 :root {
   --black: #0a0a0a;
   --white: #f5f4f0;
-  --green: #00ff41;
+  --green: #22c55e;
   --green-dim: #00cc33;
-  --ink: #1a1a1a;
+--ink: #111111;
   --paper: #f5f4f0;
   --gray: #e0dfd9;
-  --mid: #888880;
+ --mid: #666666;
 }
 
 @theme inline {
