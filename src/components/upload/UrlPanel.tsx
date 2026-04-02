@@ -22,19 +22,16 @@ function UrlPanel({
   disabled,
   isProcessing = false,
 }: UrlPanelProps) {
-  // Compute detected platform during render (no state, no effect)
+  // Honest platform detection - only X works reliably for now
   const getDetectedPlatform = (): string | null => {
     const trimmed = url.trim();
     if (!trimmed) return null;
 
     const lower = trimmed.toLowerCase();
     if (lower.includes("x.com") || lower.includes("twitter.com")) {
-      return "X";
-    } else if (lower.includes("tiktok.com")) {
-      return "TikTok";
-    } else {
-      return "Supported";
+      return "X / Twitter";
     }
+    return "Other (may not work yet)";
   };
 
   const detectedPlatform = getDetectedPlatform();
@@ -42,14 +39,20 @@ function UrlPanel({
 
   return (
     <div className="space-y-5">
-      {/* Subtle platform hint */}
+      {/* Currently Supported Platforms - Honest & Minimal */}
       <div className="flex flex-wrap gap-2 text-[10px]">
-        <span className="rounded bg-gray-100 px-2.5 py-1 text-mid">X / Twitter</span>
-        <span className="rounded bg-gray-100 px-2.5 py-1 text-mid">TikTok</span>
-        <span className="rounded bg-gray-100 px-2.5 py-1 text-mid">1000+ sites</span>
+        <span className="rounded bg-emerald-100 px-3 py-1 text-emerald-700 font-medium">
+          ✓ X / Twitter
+        </span>
+        <span className="rounded bg-gray-100 px-3 py-1 text-mid line-through opacity-60">
+          TikTok
+        </span>
+        <span className="rounded bg-gray-100 px-3 py-1 text-mid line-through opacity-60">
+          YouTube
+        </span>
       </div>
 
-      {/* Main input area - better for mobile */}
+      {/* Main Input Area */}
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
           <input
@@ -57,7 +60,7 @@ function UrlPanel({
             ref={inputRef}
             value={url}
             onChange={(e) => onUrlChange(e.target.value)}
-            placeholder="Paste X, TikTok or any supported link here..."
+            placeholder="Paste X / Twitter link here..."
             className="w-full rounded-2xl border border-gray bg-white px-5 py-4 text-[15px] font-mono outline-none focus:border-black focus:ring-1 focus:ring-black/10 placeholder:text-gray-400 disabled:bg-gray-50"
             disabled={isProcessing}
           />
@@ -86,18 +89,24 @@ function UrlPanel({
         </button>
       </div>
 
-      {/* Feedback row */}
+      {/* Feedback Row - Honest Messaging */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-mid">
-        <span>PDFs & Docx more coming soon</span>
+        <span>Currently supports X / Twitter links only</span>
         
-        {detectedPlatform && (
+        {detectedPlatform && detectedPlatform !== "Other (may not work yet)" && (
           <span className="text-emerald-600 font-medium">
-            ✓ Detected: {detectedPlatform}
+            ✓ Ready for stripping
+          </span>
+        )}
+        
+        {detectedPlatform === "Other (may not work yet)" && (
+          <span className="text-amber-600 font-medium">
+            ⚠️ Only X/Twitter works reliably right now
           </span>
         )}
       </div>
 
-      {/* Clear button */}
+      {/* Clear Button */}
       {isValidUrl && (
         <button
           onClick={onClear}
