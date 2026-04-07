@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import { FiClipboard, FiX } from "react-icons/fi";
+import { isXTwitterUrl } from "@/lib/url";
 
 type UrlPanelProps = {
   url: string;
@@ -22,11 +23,8 @@ function UrlPanel({
   disabled,
   isProcessing = false,
 }: UrlPanelProps) {
-  const isValidUrl = url.trim().length > 0;
-
-  const isXLink =
-    url.toLowerCase().includes("x.com") ||
-    url.toLowerCase().includes("twitter.com");
+  const hasInput = url.trim().length > 0;
+  const isXLink = isXTwitterUrl(url);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -64,9 +62,9 @@ function UrlPanel({
 
         <button
           onClick={onSubmit}
-          disabled={disabled || isProcessing || !isValidUrl}
+          disabled={disabled || isProcessing || !hasInput || !isXLink}
           className={`px-8 py-4 font-semibold text-sm transition-all shadow-sm ${
-            disabled || isProcessing
+            disabled || isProcessing || !isXLink
               ? "bg-gray-200 text-gray-500 cursor-not-allowed border border-gray"
               : "bg-black text-white hover:bg-zinc-900"
           }`}
@@ -76,18 +74,20 @@ function UrlPanel({
       </div>
 
       {/* Feedback Row */}
-      <div className="flex items-center justify-between text-xs text-mid px-1">
+      <div className="flex flex-col items-start gap-2 px-1 text-xs text-mid sm:flex-row sm:items-center sm:justify-between">
         <span>Currently supports X / Twitter links only</span>
 
-        {isValidUrl && !isXLink && (
-          <span className="text-amber-600">This link may not work yet</span>
+        {hasInput && !isXLink && (
+          <span className="text-amber-600">
+            Unsupported link. Use an X / Twitter URL.
+          </span>
         )}
 
-        {isValidUrl && isXLink && (
+        {hasInput && isXLink && (
           <span className="text-emerald-600">✓ Looks good</span>
         )}
 
-        {isValidUrl && (
+        {hasInput && (
           <button
             onClick={onClear}
             className="flex items-center gap-1 hover:text-black transition-colors"

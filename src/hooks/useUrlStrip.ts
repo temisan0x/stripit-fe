@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { UrlStripOptions } from "@/types/stripit";
+import { isXTwitterUrl } from "@/lib/url";
 
 const LAST_URL_STORAGE_KEY = "stripit:last-url";
 
@@ -22,9 +23,13 @@ function useUrlStrip({ socketRef, onStart, onDone, onError }: UrlStripOptions) {
   const stripFromUrl = async () => {
     const trimmed = url.trim();
     if (!trimmed) return onError("Please paste a URL first.");
-    onStart(); // ← add this
+    if (!isXTwitterUrl(trimmed)) {
+      return onError("Only X / Twitter links are supported right now.");
+    }
+
+    onStart();
     try {
-      const res = await fetch("/api/strip",{
+      const res = await fetch("/api/strip", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -81,6 +81,8 @@ function useStripit() {
 
   const onError = (msg: string) => {
     stopLog();
+    setLogs([]);
+    setProgress(0);
     setError(msg);
     setIsProcessing(false);
     stopMatrix();
