@@ -24,22 +24,24 @@ function UrlPanel({
 }: UrlPanelProps) {
   const isValidUrl = url.trim().length > 0;
 
-  // Only show detection for X since that's what works
-  const isXLink = url.toLowerCase().includes("x.com") || url.toLowerCase().includes("twitter.com");
+  const isXLink =
+    url.toLowerCase().includes("x.com") ||
+    url.toLowerCase().includes("twitter.com");
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Minimal platform indicator */}
+      {/* Platform Indicator */}
       <div className="mb-6 flex items-center gap-3">
         <span className="inline-flex items-center gap-1.5 rounded border border-emerald-400 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
           <span className="text-base leading-none">✓</span> X / Twitter
         </span>
-        <span className="text-xs text-mid">• Only X links supported right now</span>
+        <span className="text-xs text-mid">
+          • Only X links supported right now
+        </span>
       </div>
 
-      {/* Combined input + button - YOUR preferred border style */}
-      <div className="relative flex overflow-hidden rounded border border-gray bg-white mb-3">
-        <div className="relative flex-1">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 mb-3 group">
+        <div className="relative flex-1 border border-gray bg-white overflow-hidden">
           <input
             type="url"
             ref={inputRef}
@@ -63,9 +65,9 @@ function UrlPanel({
         <button
           onClick={onSubmit}
           disabled={disabled || isProcessing || !isValidUrl}
-          className={`px-8 font-semibold text-sm transition-all border-l border-gray ${
+          className={`px-8 py-4 font-semibold text-sm transition-all shadow-sm ${
             disabled || isProcessing
-              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+              ? "bg-gray-200 text-gray-500 cursor-not-allowed border border-gray"
               : "bg-black text-white hover:bg-zinc-900"
           }`}
         >
@@ -73,14 +75,14 @@ function UrlPanel({
         </button>
       </div>
 
-      {/* Clean feedback row */}
+      {/* Feedback Row */}
       <div className="flex items-center justify-between text-xs text-mid px-1">
         <span>Currently supports X / Twitter links only</span>
-        
+
         {isValidUrl && !isXLink && (
           <span className="text-amber-600">This link may not work yet</span>
         )}
-        
+
         {isValidUrl && isXLink && (
           <span className="text-emerald-600">✓ Looks good</span>
         )}
