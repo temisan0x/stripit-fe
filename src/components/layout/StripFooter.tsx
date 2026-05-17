@@ -9,7 +9,7 @@ function StripFooter() {
 
         <div className="flex items-center gap-6">
           <a
-            href="#"
+            href="http://temisan.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-black transition-colors"
