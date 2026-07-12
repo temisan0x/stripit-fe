@@ -9,23 +9,30 @@ function ProgressSection({ progress, logs, visible }: ProgressSectionProps) {
 
   return (
     <div className="mt-8">
-      <div className="mb-2 flex items-center justify-between text-[11px] uppercase tracking-[0.1em] text-mid font-(--font-mono)">
+      {/* Header */}
+      <div className="mb-2 flex items-center justify-between text-xs font-mono text-[var(--text-secondary)]">
         <span>Stripping metadata</span>
-        <span className="text-[13px] font-medium text-green">{progress}%</span>
+        <span className="text-[var(--primary)] font-medium">{progress}%</span>
       </div>
-      <div className="h-[3px] w-full overflow-hidden bg-gray">
+
+      {/* Progress Bar */}
+      <div className="h-1 w-full overflow-hidden rounded-full bg-[var(--surface-elevated)]">
         <div
-          className="h-full bg-green transition-[width] duration-300"
+          className="h-full rounded-full bg-[var(--primary)] transition-all duration-300 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
+
+      {/* Logs */}
       {logs.length > 0 && (
-        <div className="mt-4 flex h-[100px] flex-col-reverse overflow-hidden rounded bg-ink p-4 text-[11px] text-green font-(--font-mono)">
-          {logs.map((line, idx) => (
-            <div key={`${line}-${idx}`} className="leading-7 opacity-80">
-              {line}
-            </div>
-          ))}
+        <div className="mt-4 h-[100px] overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-xs text-[var(--text-secondary)]">
+          <div className="flex h-full flex-col-reverse gap-1 overflow-y-auto">
+            {logs.map((line, idx) => (
+              <div key={`${line}-${idx}`} className="leading-5">
+                {line}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

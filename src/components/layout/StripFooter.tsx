@@ -4,7 +4,7 @@ function StripFooter() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[11px] uppercase tracking-[0.05em] text-mid font-(--font-mono)">
         <div>
           © 2026 STRIPIT — Privacy-first from{" "}
-          <span className="text-emerald-700">Jos, Nigeria</span>
+          <span className="text-emerald-700">FCT Abuja, Nigeria</span>
         </div>
 
         <div className="flex items-center gap-6">

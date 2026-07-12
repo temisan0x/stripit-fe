@@ -28,33 +28,30 @@ function UrlPanel({
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Platform Indicator */}
-      <div className="mb-6 flex items-center gap-3">
-        <span className="inline-flex items-center gap-1.5 rounded border border-emerald-400 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
-          <span className="text-base leading-none">✓</span> X / Twitter
-        </span>
-        <span className="text-xs text-mid">
-          • Only X links supported right now
-        </span>
+      {/* Platform */}
+      <div className="mb-5 flex items-center gap-3 text-xs">
+        <span className="text-[var(--primary)] font-medium">✓ X / Twitter</span>
+        <span className="text-[var(--text-muted)]">Only X links supported right now</span>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 mb-3 group">
-        <div className="relative flex-1 border border-gray bg-white overflow-hidden">
+      {/* Input Group */}
+      <div className="flex gap-0 mb-3 border border-[var(--border)] rounded-lg overflow-hidden bg-[var(--surface)]">
+        <div className="relative flex-1">
           <input
             type="url"
             ref={inputRef}
             value={url}
             onChange={(e) => onUrlChange(e.target.value)}
-            placeholder="Paste X / Twitter link here..."
-            className="w-full bg-transparent px-5 py-4 text-[15px] font-(--font-mono) text-black outline-none placeholder:text-mid"
+            placeholder="Paste X / Twitter link..."
+            className="w-full bg-transparent px-4 py-3.5 text-[15px] font-mono text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]"
             disabled={isProcessing}
           />
           <button
             type="button"
             onClick={onPaste}
             disabled={isProcessing}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-mid hover:text-black transition-colors"
-            aria-label="Paste from clipboard"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+            aria-label="Paste"
           >
             <FiClipboard className="h-4 w-4" />
           </button>
@@ -63,36 +60,34 @@ function UrlPanel({
         <button
           onClick={onSubmit}
           disabled={disabled || isProcessing || !hasInput || !isXLink}
-          className={`px-8 py-4 font-semibold text-sm transition-all shadow-sm ${
-            disabled || isProcessing || !isXLink
-              ? "bg-gray-200 text-gray-500 cursor-not-allowed border border-gray"
-              : "bg-black text-white hover:bg-zinc-900"
+          className={`px-6 py-3.5 text-sm font-semibold transition-colors ${
+            disabled || isProcessing || !hasInput || !isXLink
+              ? "bg-[var(--surface-elevated)] text-[var(--text-muted)] cursor-not-allowed"
+              : "bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)]"
           }`}
         >
-          {isProcessing ? "Stripping..." : "Strip & Download"}
+          {isProcessing ? "Stripping..." : "Strip"}
         </button>
       </div>
 
-      {/* Feedback Row */}
-      <div className="flex flex-col items-start gap-2 px-1 text-xs text-mid sm:flex-row sm:items-center sm:justify-between">
-        <span>Currently supports X / Twitter links only</span>
-
-        {hasInput && !isXLink && (
-          <span className="text-amber-600">
-            Unsupported link. Use an X / Twitter URL.
-          </span>
-        )}
-
-        {hasInput && isXLink && (
-          <span className="text-emerald-600">✓ Looks good</span>
-        )}
+      {/* Feedback */}
+      <div className="flex items-center justify-between text-xs text-[var(--text-secondary)]">
+        <div className="flex items-center gap-4">
+          {hasInput && !isXLink && (
+            <span className="text-[var(--warning)]">Unsupported link</span>
+          )}
+          {hasInput && isXLink && (
+            <span className="text-[var(--primary)]">Looks good</span>
+          )}
+        </div>
 
         {hasInput && (
           <button
             onClick={onClear}
-            className="flex items-center gap-1 hover:text-black transition-colors"
+            className="flex items-center gap-1 hover:text-[var(--text-primary)] transition-colors"
           >
-            <FiX className="h-3.5 w-3.5" /> Clear
+            <FiX className="h-3.5 w-3.5" />
+            Clear
           </button>
         )}
       </div>
