@@ -8,7 +8,7 @@ function StripHero() {
           style={{
             WebkitTextStroke: "2.5px var(--primary)",
             color: "transparent",
-            textShadow: "0 4px 30px rgba(207, 35, 22, 0.4)",
+            textShadow: "0 0 40px rgba(16, 185, 129, 0.25)",
           }}
         >
           Protect.
@@ -17,17 +17,14 @@ function StripHero() {
         Share.
       </h1>
 
-      <p className="mt-6 max-w-[620px] text-[15px] leading-relaxed text-[var(--text-secondary)] font-light">
-        Remove invisible tracking metadata from X/Twitter links before anyone
-        else can use it against you.
+      <p className="mt-6 max-w-[620px] text-[15px] leading-relaxed text-[var(--text-secondary)]">
+        Remove invisible tracking metadata from X/Twitter links before anyone else can use it against you.
       </p>
 
-      <div className="mt-10 flex items-center gap-3 text-sm">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/5 text-[var(--accent)]">
-          <span className="inline-block w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-          <span className="font-medium tracking-wide">
-            12,847 creators &amp; journalists protected this month
-          </span>
+      <div className="mt-10">
+        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[var(--primary)]/25 bg-[var(--primary-muted)] text-[var(--primary)] text-sm font-medium">
+          <span className="inline-block w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
+          <span>12,847 creators & journalists protected this month</span>
         </div>
       </div>
     </>

@@ -1,26 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  /* === Core Palette === */
-  --bg: #080504;
-  --surface: #5B3025;
-  --surface-elevated: #6e3a2d; /* slightly lighter for hover states */
-  --border: #5B3025;
+  /* Core */
+  --bg: #09090B;
+  --surface: #18181B;
+  --surface-elevated: #1F1F23;
+  --border: #27272A;
 
-  --text-primary: #FEFEFE;
-  --text-secondary: #DA948B;
-  --text-muted: #CE926A;
+  /* Text */
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
 
-  --primary: #CF2316;
-  --primary-hover: #DE4D2E;
-  --accent: #CE926A;
+  /* Brand */
+  --primary: #10B981;          /* Emerald */
+  --primary-hover: #34D399;
+  --primary-muted: rgba(16, 185, 129, 0.12);
 
   /* Semantic */
-  --danger: #CF2316;
-  --success: #CE926A; /* using gold as success for this palette */
+  --danger: #F43F5E;
+  --danger-muted: rgba(244, 63, 94, 0.12);
+  --success: #10B981;
+  --warning: #F59E0B;
 }
 
-/* Tailwind / Theme tokens */
+/* Tailwind theme tokens */
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--text-primary);
@@ -30,20 +34,20 @@
 
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
-  --color-accent: var(--accent);
+  --color-primary-muted: var(--primary-muted);
 
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
 
   --color-danger: var(--danger);
+  --color-danger-muted: var(--danger-muted);
   --color-success: var(--success);
 
   --font-family-mono: var(--font-mono);
   --font-family-sans: var(--font-syne);
 }
 
-/* Base styles */
 * {
   box-sizing: border-box;
 }
@@ -62,7 +66,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Optional: Matrix canvas support */
+/* Matrix canvas */
 #matrixCanvas {
   position: fixed;
   inset: 0;
@@ -73,7 +77,7 @@ body {
 }
 
 #matrixCanvas.active {
-  opacity: 0.06;
+  opacity: 0.05;
 }
 
 /* Animations */
@@ -87,7 +91,7 @@ body {
     box-shadow: 0 0 10px var(--primary);
   }
   50% {
-    opacity: 0.45;
+    opacity: 0.4;
     box-shadow: 0 0 4px var(--primary);
   }
 }
@@ -108,7 +112,6 @@ body {
   opacity: 0;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;

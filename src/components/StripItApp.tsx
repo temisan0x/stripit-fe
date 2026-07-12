@@ -51,17 +51,23 @@ function StripItApp() {
 
         <Tabs active={activeTab} onChange={(tab) => setActiveTab(tab)} />
 
-        <div className="my-6 flex items-center justify-baseline gap-2 text-[10px] text-zinc-400 font-mono">
+        {/* Backend Status */}
+        <div className="my-6 flex items-center gap-2 text-[10px] font-mono text-[var(--text-secondary)]">
           <span>Privacy engine</span>
+
           <div
-            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] ${
               backendStatus === "online"
-                ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                : "border-amber-200 bg-amber-50 text-amber-700"
+                ? "border-[var(--primary)]/40 bg-[var(--primary-muted)] text-[var(--primary)]"
+                : "border-[var(--warning)]/40 bg-[rgba(245,158,11,0.1)] text-[var(--warning)]"
             }`}
           >
             <span
-              className={`w-1.5 h-1.5 rounded-full ${backendStatus === "online" ? "bg-emerald-500 animate-pulse" : "bg-amber-500"}`}
+              className={`w-1.5 h-1.5 rounded-full ${
+                backendStatus === "online"
+                  ? "bg-[var(--primary)] animate-pulse"
+                  : "bg-[var(--warning)]"
+              }`}
             />
             {backendStatus === "online"
               ? "Online"
@@ -74,7 +80,7 @@ function StripItApp() {
             <button
               onClick={checkBackendStatus}
               disabled={backendStatus === "checking"}
-              className="underline underline-offset-2 hover:text-black text-xs transition-colors"
+              className="underline underline-offset-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs transition-colors"
             >
               Retry
             </button>
@@ -106,9 +112,8 @@ function StripItApp() {
             setIsDragging={setIsDragging}
           />
         )}
-
         {error && (
-          <div className="mt-4 rounded border-l-4 border-[#ff4444] bg-[#fff0f0] px-4 py-3 text-[12px] text-[#cc0000] font-(--font-mono)">
+          <div className="mt-4 rounded-lg border border-[var(--danger)]/30 bg-[var(--danger-muted)] px-4 py-3 text-[13px] text-[var(--danger)] font-mono">
             &gt; Error: {error}
           </div>
         )}
