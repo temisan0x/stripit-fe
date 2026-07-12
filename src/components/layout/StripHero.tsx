@@ -24,7 +24,7 @@ function StripHero() {
       <div className="mt-10">
         <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[var(--primary)]/25 bg-[var(--primary-muted)] text-[var(--primary)] text-sm font-medium">
           <span className="inline-block w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
-          <span>12,847 creators & journalists protected this month</span>
+          <span>121,847 creators & journalists protected this month</span>
         </div>
       </div>
     </>
