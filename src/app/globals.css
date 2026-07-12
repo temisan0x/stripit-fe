@@ -1,48 +1,68 @@
 @import "tailwindcss";
 
 :root {
-  --black: #0a0a0a;
-  --white: #f5f4f0;
-  --green: #22c55e;
-  --green-dim: #00cc33;
---ink: #111111;
-  --paper: #f5f4f0;
-  --gray: #e0dfd9;
- --mid: #666666;
+  /* === Core Palette === */
+  --bg: #080504;
+  --surface: #5B3025;
+  --surface-elevated: #6e3a2d; /* slightly lighter for hover states */
+  --border: #5B3025;
+
+  --text-primary: #FEFEFE;
+  --text-secondary: #DA948B;
+  --text-muted: #CE926A;
+
+  --primary: #CF2316;
+  --primary-hover: #DE4D2E;
+  --accent: #CE926A;
+
+  /* Semantic */
+  --danger: #CF2316;
+  --success: #CE926A; /* using gold as success for this palette */
 }
 
+/* Tailwind / Theme tokens */
 @theme inline {
-  --color-background: var(--paper);
-  --color-foreground: var(--ink);
-  --color-black: var(--black);
-  --color-green: var(--green);
-  --color-green-dim: var(--green-dim);
-  --color-ink: var(--ink);
-  --color-gray: var(--gray);
-  --color-mid: var(--mid);
-  --color-danger: #cc4444;
-  --color-success: #00cc33;
-  --color-gray-border: #e0dfd9;
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
   --font-family-mono: var(--font-mono);
   --font-family-sans: var(--font-syne);
 }
 
+/* Base styles */
 * {
   box-sizing: border-box;
 }
 
-body {
-  font-family: var(--font-syne), "Syne", sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
+body {
+  font-family: var(--font-syne), "Syne", system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Optional: Matrix canvas support */
 #matrixCanvas {
   position: fixed;
   inset: 0;
@@ -53,22 +73,22 @@ html {
 }
 
 #matrixCanvas.active {
-  opacity: 0.07;
+  opacity: 0.06;
 }
 
+/* Animations */
 .pulse-dot {
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0%,
-  100% {
+  0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 8px var(--green);
+    box-shadow: 0 0 10px var(--primary);
   }
   50% {
-    opacity: 0.4;
-    box-shadow: 0 0 3px var(--green);
+    opacity: 0.45;
+    box-shadow: 0 0 4px var(--primary);
   }
 }
 
@@ -84,10 +104,11 @@ html {
 }
 
 .fade-up {
-  animation: fadeUp 0.5s ease forwards;
+  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   opacity: 0;
 }
 
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
