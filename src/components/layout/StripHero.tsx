@@ -18,7 +18,8 @@ function StripHero() {
       </h1>
 
       <p className="mt-6 max-w-[620px] text-[15px] leading-relaxed text-[var(--text-secondary)]">
-        Remove invisible tracking metadata from X/Twitter links before anyone else can use it against you.
+        Remove invisible tracking metadata from X/Twitter links before anyone
+        else can use it against you.
       </p>
 
       <div className="mt-10">
