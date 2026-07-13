@@ -12,7 +12,7 @@ type MetadataColumnProps = {
 
 function MetadataColumn({ label, color, fields, data, stripped, empty, emptyText }: MetadataColumnProps) {
   return (
-    <div className="p-4 relative z-10 ">
+    <div className="p-4 relative z-10 bg-emerald-700">
       <div className={`mb-3 text-[10px] uppercase tracking-[0.15em] font-(--font-mono) ${color}`}>
         ● {label}
       </div>
