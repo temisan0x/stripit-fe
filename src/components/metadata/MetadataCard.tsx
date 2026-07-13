@@ -1,3 +1,4 @@
+import type React from 'react';
 import { MetadataColumn } from "./MetadataColumn";
 import type { MetadataPayload } from "@/types/stripit";
 import { FIELDS } from "@/lib/constants";
@@ -19,8 +20,20 @@ function MetadataCard({ metadata }: MetadataCardProps) {
     (f) => hasRealValue(before[f.key]) || hasRealValue(after[f.key])
   );
 
+  const columnStyle: React.CSSProperties = {
+    backgroundColor: 'rgba(255,255,255,0.02)',
+    backgroundImage:
+      'repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 12px, transparent 12px 24px)',
+    WebkitBackdropFilter: 'blur(4px)',
+    backdropFilter: 'blur(4px)',
+  };
+
   return (
-    <div className="mt-8 overflow-hidden rounded-2xl border border-[var(--border)] glass">
+    <div className="relative mt-8 overflow-hidden rounded-2xl border border-[var(--border)] glass bg-[var(--surface-elevated)]/60 backdrop-blur-sm">
+      {/* faint centered watermark to give a subtle "AI" / robotic feel */}
+      <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-[90px] font-extrabold text-white opacity-5 select-none">
+        AI
+      </span>
       {/* Header */}
       <div className="flex items-center justify-between bg-[var(--surface-elevated)] px-6 py-4 border-b border-[var(--border)]">
         <div className="flex items-center gap-3">
@@ -38,7 +51,7 @@ function MetadataCard({ metadata }: MetadataCardProps) {
 
       {/* Before / After Columns */}
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="border-b md:border-b-0 md:border-r border-[var(--border)]">
+        <div className="border-b md:border-b-0 md:border-r border-[var(--border)]" style={columnStyle}>
           <MetadataColumn
             label="Before"
             color="text-[var(--danger)]"
@@ -49,7 +62,7 @@ function MetadataCard({ metadata }: MetadataCardProps) {
           />
         </div>
 
-        <div>
+        <div style={columnStyle}>
           <MetadataColumn
             label="After"
             color="text-[var(--success)]"
