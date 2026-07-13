@@ -3,6 +3,7 @@ import type React from "react";
 export type MetadataPayload = {
   before?: Record<string, unknown>;
   after?: Record<string, unknown>;
+  stripped?: boolean;
 };
 
 export type StripitResult = {
