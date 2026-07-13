@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from "react";
 import { MetadataColumn } from "./MetadataColumn";
 import type { MetadataPayload } from "@/types/stripit";
 import { FIELDS } from "@/lib/constants";
@@ -17,22 +17,22 @@ function MetadataCard({ metadata }: MetadataCardProps) {
   const after = metadata.after || {};
 
   const activeFields = FIELDS.filter(
-    (f) => hasRealValue(before[f.key]) || hasRealValue(after[f.key])
+    (f) => hasRealValue(before[f.key]) || hasRealValue(after[f.key]),
   );
 
   const beforeColumnStyle: React.CSSProperties = {
-    background: 'linear-gradient(180deg, rgba(244,63,94,0.04), transparent)',
+    background: "linear-gradient(180deg, rgba(244,63,94,0.04), transparent)",
   };
 
   const afterColumnStyle: React.CSSProperties = {
-    background: 'linear-gradient(180deg, rgba(16,185,129,0.04), transparent)',
+    background: "linear-gradient(180deg, rgba(16,185,129,0.04), transparent)",
   };
 
   return (
     <div className="relative mt-8 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/70 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
       {/* faint centered watermark to give a subtle "AI" / robotic feel */}
-      <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-[90px] font-extrabold text-white opacity-5 select-none">
-        AI
+      <span className="pointer-events-none absolute top-4 right-6 text-[10px] font-mono tracking-widest text-[var(--primary)]/20 select-none">
+        ◆ VERIFIED CLEAN
       </span>
       {/* Header */}
       <div className="flex items-center justify-between bg-[var(--surface-elevated)] px-6 py-4 border-b border-[var(--border)]">
