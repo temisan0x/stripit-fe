@@ -30,11 +30,9 @@ function MetadataCard({ metadata }: MetadataCardProps) {
 
   return (
     <div className="relative mt-8 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/70 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
-      {/* faint centered watermark to give a subtle "AI" / robotic feel */}
       <span className="pointer-events-none absolute top-4 right-6 text-[10px] font-mono tracking-widest text-[var(--primary)]/20 select-none">
         ◆ VERIFIED CLEAN
       </span>
-      {/* Header */}
       <div className="flex items-center justify-between bg-[var(--surface-elevated)] px-6 py-4 border-b border-[var(--border)]">
         <div className="flex items-center gap-3">
           <span className="text-[11px] uppercase tracking-[1.5px] font-mono text-[var(--primary)]">
@@ -50,7 +48,6 @@ function MetadataCard({ metadata }: MetadataCardProps) {
         )}
       </div>
 
-      {/* Before / After Columns */}
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div
           className="relative border-b md:border-b-0 md:border-r-0 border-[var(--border)]
